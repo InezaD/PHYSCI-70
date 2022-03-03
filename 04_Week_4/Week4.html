@@ -52,20 +52,71 @@
   3. Initialize the digital pin directions and turn off using for () loop and pinMode ()
   4. Read the temperature sensor using loop () function as well as sensorVal () and analog read ()
   5. Send the temperature sensor values to the computer using Serial.print () to send information from the arduino to the connected computer.
-
-  <img src="first5.png">
   
+  <pre>
+    <code>
+      const int sensorPin = A0;
+      const float baselineTemp = 20.8;
+
+      void setup() {
+        Serial.begin(9600); // open a serial port
+        for (int pinNumber = 2; pinNumber < 5; pinNumber++) {
+          pinMode(pinNumber, OUTPUT);
+          digitalWrite(pinNumber, LOW);
+  }
+}
+
+      void loop() {
+        int sensorVal = analogRead(sensorPin);
+        Serial.print("Sensor Value: ");
+        Serial.print(sensorVal);
+    </code>
+  </pre>
+    
   6. Convert sensor reading to voltage using a float holder. There was some math involved to geet the actual voltage, but knowing that the voltage value is between 0 and 5 volts and that in the arduino analog input 5v = 1024.0, multiplying the value obtained using sensorVal by 5 outputs the actual voltage on the pin which is then printed out on the serial monitor.
   7. Convert the voltage to temperature and send the value to the computer
   8. Turn off LEDs for a low temperature using if ()...else statement
 
-  <img src="6to8.png">
+  <pre>
+    <code>
+      // convert the ADC reading to voltage
+      float voltage = (sensorVal / 1024.0) * 5.0;
+      Serial.print(", Volts: ");
+      Serial.print(voltage);
+      Serial.print(", temperature in Celsius: ");
+      // convert the voltage to temperature in degrees
+      float temperature = (voltage - .5) * 100;
+      Serial.println(temperature);
+
+      if (temperature < baselineTemp) {
+        digitalWrite(2, LOW);
+        digitalWrite(3, LOW);
+        digitalWrite(4, LOW);
+    </code>
+  </pre>
   
   9. Turn on one LED for a low temperature using the and (&&) operator
   10. Turn two LEDs for a medium temperature
   11. Turn on three LEDs for a high temperature
 
-  <img src="9toend.png">
+  <pre>
+    <code>
+      } else if (temperature >= baselineTemp + 2 &&
+                 temperature < baselineTemp + 4.2) {
+        digitalWrite(2, HIGH);
+        digitalWrite(3, HIGH);
+        digitalWrite(4, LOW);
+
+      } else if (temperature >= baselineTemp + 4.2) {
+        digitalWrite(2, HIGH);
+        digitalWrite(3, HIGH);
+        digitalWrite(4, HIGH);
+      }
+      delay(1);
+      }
+
+    </code>
+  </pre>
 
   Here is a demonstration when I touch tried it and what the serial monitor was showing at the moment.
 
