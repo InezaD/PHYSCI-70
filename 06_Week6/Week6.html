@@ -141,9 +141,12 @@
     <code>int celsius = 0;
       int fahrenheit = 0;
       int Ena=7;
+      const float baselineTemp = 22;
+      const int sensorPin = A0;
       void setup()
       {
         Serial.begin(9600);
+        //analogReadResolution(12);                 //Using a 32-bit ATSAM microcontroller that has up to 12 bit resolution. 4095 max.
         pinMode(A0, INPUT);
         pinMode(13, OUTPUT); // define pin 13 for A-1B (direction)
         pinMode(12, OUTPUT); // define pin 12 for A-1A (PWM Speed)
@@ -151,46 +154,56 @@
         pinMode(3, OUTPUT); // 3= red LED
         analogWrite(Ena,255);
       }
-      
+
       void loop()
       {
-        celsius = map(((analogRead(A0))), 0, 1023, 30, 70);
-        fahrenheit = ((celsius * 9) / 5 + 32);
-        Serial.print(celsius);
-        Serial.print(" C, ");
-        Serial.print(fahrenheit);
-        Serial.println(" F");
-      
-      // If the temperature is below 40 Fahrenheit, turn on the red LED, turn off the green LED and turn the motor on
-         if (celsius < 40) {
-          digitalWrite(3, HIGH);
-          digitalWrite(4, LOW);
-          digitalWrite(12, HIGH);
-          digitalWrite(13, LOW);
-         
-        }
-        // If the temperature is above 40 Fahrenheit, turn off the red LED, turn on the green LED and turn off the motor
-        if (celsius > 40)
-        {
-          digitalWrite(4, HIGH);
-          digitalWrite(3, LOW);
-          digitalWrite(13,LOW);
-          digitalWrite(12, LOW);
-          
-        }
+        int sensorVal = analogRead(sensorPin);
+        Serial.print("Sensor Value: ");
+        Serial.print(sensorVal);
+        // convert the ADC reading to voltage
+        float voltage = (sensorVal / 1024.0) * 5.0;
+        Serial.print(", Volts: ");
+        Serial.print(voltage);
+        Serial.print(", temperature in Celsius: ");
+          Serial.print(" C, ");
+        // convert the voltage to temperature in degrees
+        float temperature = (voltage - .5) * 100;
+        Serial.println(temperature);
+        // If the temperature is below 40 Fahrenheit, turn on the red LED, turn off the green LED and turn the motor on
+        if (temperature <  25) {
+         digitalWrite(3, HIGH);
+         digitalWrite(4, LOW);
+         digitalWrite(12, LOW);
+         digitalWrite(13, LOW);
         
-        delay(10); 
-      }
+       }
+       // If the temperature is above 40 Fahrenheit, turn off the red LED, turn on the green LED and turn off the motor
+       if (temperature >  25)
+       {
+         digitalWrite(3, LOW);
+         digitalWrite(4, HIGH);
+         digitalWrite(13,LOW);
+         digitalWrite(12, HIGH);
+         
+       }
+       
+       delay(1); 
+     }
     </code>
   </pre>
 
+  Here is a video of the motor responding to the temperature change. Notice that for the sake of this demonstration, I changed the if statement to make it turn when the temperature was warm (so >25):
+  <video width="620" height="440" controls src="demo.mp4"></video>
+  
+  Here is the data visualization in the form of a table to show that as the voltage increases, we see a spike:
+  <video width="620" height="440" controls src="plotter.mp4"></video>
 
   This week shoutout goes to:
   
   <ul>
-    <li></li>
-    <li></li>
-    <li></li>
+    <li>Nathan for patiently helping me troubleshoot the circui</li>
+    <li>Ibrahim for his help during OH</li>
+    <li>Lauren for her moral support</li>
   </ul>
    
 </xmp>
