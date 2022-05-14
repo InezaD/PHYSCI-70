@@ -16,9 +16,9 @@
     Hello there and welcome to the end of week 10,
   
     For this week's assignment, we had to:
-    <p> 1. Demonstrate communication between a microcontroller and another device. 
-        2. Optionally, work with a partner to control a device remotely.
-    </p>
+    1. Demonstrate communication between a microcontroller and another device. 
+    2. Optionally, work with a partner to control a device remotely.
+    
 
     My parter Lauren and I had the idea of making a sentimental but pratical piece. The goal was to make interactive picture frames that could communicate from a distance using wifi or bluetooth once one was touched. 
 
@@ -36,10 +36,11 @@
     I just wish we were able to figure out how to let the other arduino know that it the sister frame has been touched so it can also light its own LED
     The arduino codes we used:
     For the mother arduino:
+    
     <pre>
-        <code>
+    <code>
             
-#include <WiFi.h>                                 // esp32 library
+    #include <WiFi.h>                                 // esp32 library
     #include <FirebaseESP32.h>                        // firebase library
     
     #define FIREBASE_HOST "lauren-and-dany-project-default-rtdb.firebaseio.com/"  // the project name address from firebase id
@@ -108,7 +109,7 @@
     
       delay(1000);                                 // not strictly necessary
     }
-        </code>
+     </code>
     </pre>
 
     For the child arduino:
@@ -195,7 +196,7 @@
   This week shoutout goes to:
   
   <ul>
-    <li>Kassia during her OH</li>
+    <li>Kassia</li>
   </ul>
    
 </xmp>
