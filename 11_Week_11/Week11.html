@@ -15,21 +15,21 @@
   ### Week 11:
   Hello there and welcome to the end of week 12,
  
-    For this week's assignment, we had to:
-    1. Send data to a computer and write code to display results (e.g., visualization of sensor data, browser-based game with microcontroller-based interactions, etc.)
- 
- 
-    I went ahead and first wanted to practice something that we had learned in class. <a href='./p5.html'>Processing and p5</a><br>
-    with this new knowledge and he help of this guy: <a href='https://www.youtube.com/channel/UCHm5sxfqw5Oq2mbiYH1kgzw/videos'>Coding with Mr Ward</a>, I made a shooting game using p5.
-   
-    Things I learned:
-Mainly how to make an interactive game that responds to keyboard commands which was so cool
+For this week's assignment, we had to:
+1. Send data to a computer and write code to display results (e.g., visualization of sensor data, browser-based game with microcontroller-based interactions, etc.)
+
+
+I went ahead and first wanted to practice something that we had learned in class. <a href='./p5.html'>Processing and p5</a><br>
+with this new knowledge and he help of this guy: <a href='https://www.youtube.com/channel/UCHm5sxfqw5Oq2mbiYH1kgzw/videos'>Coding with Mr Ward</a>, I made a shooting game using p5.
+
+Things I learned: Mainly how to make an interactive game that responds to keyboard commands which was so cool
+<ul>
 <li>How to create figures (for a circle, it’s literally a function called circle)</li>
-    <li>Make the figure responsive to the mouse by instead of fixing it’s y or x position, literally write mouseX or mouseY as its input</li>
-        <li>How to make the figure respond to a mouse click</li>
-            <li>Fascinating that we can also instead of fixing a position, we can ask the program to randomize it by just using the function “random” as simple as that</li>
- 
- 
+<li>Make the figure responsive to the mouse by instead of fixing it’s y or x position, literally write mouseX or mouseY as its input</li>
+<li>How to make the figure respond to a mouse click</li>
+<li>Fascinating that we can also instead of fixing a position, we can ask the program to randomize it by just using the function “random” as simple as that</li>
+</ul>
+
 Future improvements:
 with the bullets and the whole game in general:
  
@@ -46,19 +46,13 @@ with the bullets and the whole game in general:
     <li>Make the circle move by itself and Use a button to shoot the bullets</li>
  
 </ul>
+</p>
  
 Here is the code I used:
  
  
   <pre>
     <code>
-     
-// player to move x-axis
-// bullets spawn on click
-// enemies
-// collisions
-// score
-// lose
 let bullets = [];
 let enemies = [];
 let score = 0;
@@ -136,83 +130,12 @@ function mousePressed() {
     </code>
   </pre>
  
- 
-  Then the code to turn off the alarm once pressed:
- 
-  <pre>
-    <code>
-      /*
-      Created by ArduinoGetStarted.com
-   
-      This example code is in the public domain
-   
-      Tutorial page: https://arduinogetstarted.com/tutorials/arduino-button-toggle-led
-   */
-   //use this code.from toggling led
-   // constants won't change
-   const int BUTTON_PIN = A4; // Arduino pin connected to button's pin
-   const int LED_PIN    = 12; // Arduino pin connected to LED's pin
-   
-   int channel = 0;
-   int resolution = 8;
-   // variables will change:
-   int buzzerState = LOW;     // the current state of LED
-   int lastButtonState;    // the previous state of button
-   int currentButtonState; // the current state of button
-   
-   int buzzerPin = 4; // Positive buzzer pin connected to pin 5
-   long max_frequency = 2500; // Max frequency for the buzzer
-   long frequency = 500; // The frequency to buzz the buzzer
-   
-   void setup() {
-     Serial.begin(9600);                // initialize serial
-     pinMode(BUTTON_PIN, INPUT_PULLUP); // set arduino pin to input pull-up mode
-     pinMode(LED_PIN, OUTPUT);          // set arduino pin to output mode
-     pinMode(buzzerPin, OUTPUT); // set a pin for buzzer output
-     currentButtonState = digitalRead(BUTTON_PIN);
-     ledcSetup(channel, frequency, resolution);
-     ledcAttachPin(4, channel);
-   }
-   
-   void loop() {
-   
-     ledcWriteTone(channel, frequency);
-     delay(100);
-     lastButtonState    = currentButtonState;      // save the last state
-     currentButtonState = digitalRead(BUTTON_PIN); // read new state
-   
-     if (lastButtonState == HIGH && currentButtonState == LOW) {
-       Serial.println("The button is pressed");
-   
-       // toggle state of LED
-       buzzerState = !buzzerState;
-       frequency = 0;
-       // control LED arccoding to the toggled state
-       ledcWrite(buzzerPin, 0);
-       delay(100);
-     }
-     /*buzz(buzzerPin, 2000, 10);*/
-   }
-   
-   void buzz(int targetPin, long frequency, long length) {
-     long delayValue = 1000000 / frequency / 2;
-     long numCycles = frequency * length / 1000;
-   
-     for (long i = 0; i < numCycles; i++) {
-       /*digitalWrite(targetPin, HIGH);
-         delayMicroseconds(delayValue);
-         digitalWrite(targetPin, LOW);
-         delayMicroseconds(delayValue);*/
-       ledcWriteTone(channel, frequency);
-     }
-   }
-    </code>
-  </pre>
- 
    And here is the game in action
     <video width="620" height="440" controls src="p5.js Web Editor _ Zest iron - Google Chrome 2022-05-13 01-35-40.mp4"></video>
  
- 
+ <ul>
+   
+ </ul>
   This week shoutout goes to:
  
   <ul>
