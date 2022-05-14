@@ -1,40 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
-
+ 
 <title>PHYSCI 70: Intro to Digital Fabrication </title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="../style.css" rel="stylesheet">
-
+ 
 <body>
-
-
+ 
+ 
 <xmp theme="journal" style="display:none;">
-
-
-
-  ### Week 11: Application Programming
-    Hello there and welcome to the end of week 12,
-  
+ 
+ 
+ 
+  ### Week 11:
+  Hello there and welcome to the end of week 12,
+ 
     For this week's assignment, we had to:
-    <p> 1. Send data to a computer and write code to display results (e.g., visualization of sensor data, browser-based game with microcontroller-based interactions, etc.)
-    </p>
-
+    1. Send data to a computer and write code to display results (e.g., visualization of sensor data, browser-based game with microcontroller-based interactions, etc.)
+ 
+ 
     I went ahead and first wanted to practice something that we had learned in class. <a href='./p5.html'>Processing and p5</a><br>
-    with this new knowledge and he help of this guy: <a href='https://www.youtube.com/channel/UCHm5sxfqw5Oq2mbiYH1kgzw/videos'>Coding with Mr Ward</a>, I made a shooting game using p5. 
-    
+    with this new knowledge and he help of this guy: <a href='https://www.youtube.com/channel/UCHm5sxfqw5Oq2mbiYH1kgzw/videos'>Coding with Mr Ward</a>, I made a shooting game using p5.
+   
     Things I learned:
 Mainly how to make an interactive game that responds to keyboard commands which was so cool
 <li>How to create figures (for a circle, it’s literally a function called circle)</li>
     <li>Make the figure responsive to the mouse by instead of fixing it’s y or x position, literally write mouseX or mouseY as its input</li>
         <li>How to make the figure respond to a mouse click</li>
             <li>Fascinating that we can also instead of fixing a position, we can ask the program to randomize it by just using the function “random” as simple as that</li>
-
-
+ 
+ 
 Future improvements:
 with the bullets and the whole game in general:
-
+ 
 <ul><li>make fancy colors</li>
-    <li>diff sizes and shapes,</li> 
+    <li>diff sizes and shapes,</li>
     <li>Health (if you miss 3 bullets that’s when you die or you lose 1 life out of idk how many each time you miss a bullet</li>
     <li>Can it play a sound every time something idk happens?</li>
     <li>Limit bullet number?</li>
@@ -44,13 +44,16 @@ with the bullets and the whole game in general:
     <li>Some of them have armor and special effects (like drifting instead of going straight)</li>
     <li>High score board </li>
     <li>Make the circle move by itself and Use a button to shoot the bullets</li>
-
+ 
 </ul>
-
+ 
 Here is the code I used:
-<pre>
+ 
+ 
+  <pre>
     <code>
-        // player to move x-axis
+     
+// player to move x-axis
 // bullets spawn on click
 // enemies
 // collisions
@@ -59,10 +62,10 @@ Here is the code I used:
 let bullets = [];
 let enemies = [];
 let score = 0;
-
+ 
 function setup() {
   createCanvas(600, 600);
-
+ 
   // spawn enemies
   for (let i = 0; i < 10; i++) {
     //making an enemy 10 times
@@ -74,19 +77,19 @@ function setup() {
     enemies.push(enemy);
   }
 }
-
+ 
 function draw() {
   background(51);
   rectMode(CENTER);
   //draw the player
   circle(mouseX, height - 50, 25);
-
+ 
   //update and draw bullets
   for (let bullet of bullets) {
     bullet.y -= 10;
     circle(bullet.x, bullet.y, 10);
   }
-
+ 
   //update and draw enemies
   for (let enemy of enemies) {
     enemy.y += 2;
@@ -97,7 +100,7 @@ function draw() {
       noLoop();
     }
   }
-
+ 
   // deal with collisions
   for (let enemy of enemies) {
     for (let bullet of bullets) {
@@ -116,10 +119,10 @@ function draw() {
       }
     }
   }
-
+ 
   text(score, 15, 25);
 }
-
+ 
 function mousePressed() {
   // spawn a bullet when the use clicks
   //console.log ('Im clicked')
@@ -129,35 +132,105 @@ function mousePressed() {
   };
   bullets.push(bullet);
 }
-
-
+ 
     </code>
-    </pre>
-
-    And here is the game in action
+  </pre>
+ 
+ 
+  Then the code to turn off the alarm once pressed:
+ 
+  <pre>
+    <code>
+      /*
+      Created by ArduinoGetStarted.com
+   
+      This example code is in the public domain
+   
+      Tutorial page: https://arduinogetstarted.com/tutorials/arduino-button-toggle-led
+   */
+   //use this code.from toggling led
+   // constants won't change
+   const int BUTTON_PIN = A4; // Arduino pin connected to button's pin
+   const int LED_PIN    = 12; // Arduino pin connected to LED's pin
+   
+   int channel = 0;
+   int resolution = 8;
+   // variables will change:
+   int buzzerState = LOW;     // the current state of LED
+   int lastButtonState;    // the previous state of button
+   int currentButtonState; // the current state of button
+   
+   int buzzerPin = 4; // Positive buzzer pin connected to pin 5
+   long max_frequency = 2500; // Max frequency for the buzzer
+   long frequency = 500; // The frequency to buzz the buzzer
+   
+   void setup() {
+     Serial.begin(9600);                // initialize serial
+     pinMode(BUTTON_PIN, INPUT_PULLUP); // set arduino pin to input pull-up mode
+     pinMode(LED_PIN, OUTPUT);          // set arduino pin to output mode
+     pinMode(buzzerPin, OUTPUT); // set a pin for buzzer output
+     currentButtonState = digitalRead(BUTTON_PIN);
+     ledcSetup(channel, frequency, resolution);
+     ledcAttachPin(4, channel);
+   }
+   
+   void loop() {
+   
+     ledcWriteTone(channel, frequency);
+     delay(100);
+     lastButtonState    = currentButtonState;      // save the last state
+     currentButtonState = digitalRead(BUTTON_PIN); // read new state
+   
+     if (lastButtonState == HIGH && currentButtonState == LOW) {
+       Serial.println("The button is pressed");
+   
+       // toggle state of LED
+       buzzerState = !buzzerState;
+       frequency = 0;
+       // control LED arccoding to the toggled state
+       ledcWrite(buzzerPin, 0);
+       delay(100);
+     }
+     /*buzz(buzzerPin, 2000, 10);*/
+   }
+   
+   void buzz(int targetPin, long frequency, long length) {
+     long delayValue = 1000000 / frequency / 2;
+     long numCycles = frequency * length / 1000;
+   
+     for (long i = 0; i < numCycles; i++) {
+       /*digitalWrite(targetPin, HIGH);
+         delayMicroseconds(delayValue);
+         digitalWrite(targetPin, LOW);
+         delayMicroseconds(delayValue);*/
+       ledcWriteTone(channel, frequency);
+     }
+   }
+    </code>
+  </pre>
+ 
+   And here is the game in action
     <video width="620" height="440" controls src="p5.js Web Editor _ Zest iron - Google Chrome 2022-05-13 01-35-40.mp4"></video>
-
-    But then, I decided to collaborate with Shavonnah and Lauren on the design of another project. We both wanted to incorporate this week's assignment (computer programming) with Build a simple machine using at least a stepper motor. Demonstrate the ability to command the machine to get repeatable results.
-
-    We decided to try to ...
-
-
+ 
+ 
   This week shoutout goes to:
-  
+ 
   <ul>
     <li>Kassia during her OH</li>
     <li>Nathan for saving the day when he actually explained how to use the monofab machine</li>
   </ul>
-   
-</xmp>
+ 
+  </xmp>
 </body>
-
+ 
 <div class="navbar">
   <a href="/09_Week_9/Week9.html" class="active">Previous Week</a>
   <a href="index.html">Home</a>
 </div>
-
+ 
+ 
 <script src="https://strapdownjs.com/v/0.2/strapdown.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" ></script>
-
+ 
 </html>
+
